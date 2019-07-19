@@ -11,6 +11,7 @@
             TransactionOperation = operation;
         }
 
-        public string OperationName { get => TransactionOperation.ToString(); }
+        public bool Add { get => TransactionOperation == TransactionOperation.Add; }
+        public bool Subtract { get => TransactionOperation == TransactionOperation.Subtract; }
     }
 }

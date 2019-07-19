@@ -15,21 +15,6 @@ namespace Accounts.Runtime.Model
             this.Amount = prototype.Amount;
         }
 
-        public void ApplyOperation(TransactionOperation operation, Decimal value)
-        {
-            switch (operation)
-            {
-                case TransactionOperation.Subtract:
-                    Amount -= value;
-                    break;
-                case TransactionOperation.Add:
-                    Amount += value;
-                    break;
-                default:
-                    break;
-            }
-        }
-
         public decimal Add(decimal value)
         {
             decimal result = Amount + value;
