@@ -8,6 +8,8 @@ namespace Accounts.Runtime.Model
 
         public decimal Amount { get; set; } = 0;
 
+        public Position() { }
+
         public Position(Position prototype)
         {
             this.Amount = prototype.Amount;

@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace Accounts.Runtime.Model
 {
-    public class Account
+    public abstract class Account
     {
-        private BusinessDayCalculator BusinessDayCalculator;
-        private DateTime ActionDate;
-        private DateTime ValueDate;
+        protected BusinessDayCalculator BusinessDayCalculator;
+        protected DateTime ActionDate;
+        protected DateTime ValueDate;
 
         public string AccountNumber { get; set; }
         public bool IsActive { get; set; }
@@ -23,5 +23,26 @@ namespace Accounts.Runtime.Model
         public List<Transaction> Transactions { get; set; } = new List<Transaction>();
         public Dictionary<string, InstalmentSet> InstalmentSets { get; set; } = new Dictionary<string, InstalmentSet>();
 
+        public Transaction CreateTransaction(string transactionTypeName, decimal amount)
+        {
+
+            Transaction transaction = new Transaction(transactionTypeName, amount, ActionDate, ValueDate);
+
+            Dictionary<string, Decimal> positions = ProcessTransaction(transactionTypeName, amount);
+
+            transaction.Positions = positions;
+
+            AddTransaction(transaction);
+
+            return transaction;
+        }
+
+        private void AddTransaction(Transaction transaction)
+        {
+            Transactions.Add(transaction);
+        }
+
+        public abstract Dictionary<string, decimal> ProcessTransaction(String transactionTypeName, decimal amount);
+        public abstract void InitializePositions();
     }
 }

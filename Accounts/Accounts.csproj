@@ -11,14 +11,26 @@
     <Folder Include="Metadata\Model\" />
     <Folder Include="Runtime\" />
     <Folder Include="Runtime\Model\" />
+    <Folder Include="Utilities\" />
+    <Folder Include="Runtime\Service\" />
+    <Folder Include="Runtime\Commands\" />
+    <Folder Include="Runtime\CodeGeneration\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
+    <PackageReference Include="Handlebars.Net" Version="1.10.1" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.1.0" />
   </ItemGroup>
 
   <ItemGroup>
     <Compile Remove="Controllers\ValuesController.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Runtime\CodeGeneration\AccountTemplate.mustache" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Runtime\CodeGeneration\AccountTemplate.mustache" />
   </ItemGroup>
 </Project>

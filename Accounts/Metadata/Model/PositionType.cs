@@ -3,9 +3,17 @@
     public class PositionType: NamedAbstractEntity
     {
         public PositionType() {
-            IsPrincipal = false;
+
         }
 
-        public bool IsPrincipal { get; set; }
+        public PositionType(string propertyName):base(propertyName) {
+            
+        }
+
+        public PositionType(string propertyName, string labelName) : base(propertyName, labelName) {
+
+        }
+
+        public bool IsPrincipal { get; set; } = false;
     }
 }

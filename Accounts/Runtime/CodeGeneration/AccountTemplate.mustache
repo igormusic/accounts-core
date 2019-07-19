@@ -1,0 +1,52 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace Accounts.Runtime.Model
+{
+    public class {{ClassName}} : Account
+    {
+
+        public override void InitializePositions()
+        {
+        {{#PositionTypes}}
+            Positions.Add("{{PropertyName}}", new Position());
+        {{/PositionTypes}}
+        }
+
+        {{#PositionTypes}}
+        public Position {{PropertyName}} { get => Positions["{{PropertyName}}"]; }
+        {{/PositionTypes}}
+
+        public override Dictionary<string, decimal> ProcessTransaction(string transactionTypeName, decimal amount)
+        {
+
+            Dictionary<string, decimal> positionMap = new Dictionary<string, decimal>();
+
+            switch (transactionTypeName)
+            {
+            
+{{#TransactionTypes}}
+            case "{{PropertyName}}":
+    {{#TransactionRules}}
+        {{^MaximumPrecision}}
+                amount = Math.Round(amount, 2);
+        {{/MaximumPrecision}}
+        {{#Add}}
+                {{PositionTypeName}}.Add(amount);
+        {{/Add}}
+        {{#Subtract}}
+                {{PositionTypeName}}.Subtract(amount);
+        {{/Subtract}}
+
+                positionMap.Add("{{PositionTypeName}}", {{PositionTypeName}}.Amount);
+    {{/TransactionRules}}
+                break;
+{{/TransactionTypes}}
+            default:
+                throw new ArgumentException("Invalid transactionTypeName : " + transactionTypeName, "transactionTypeName");
+            }
+
+            return positionMap;
+        }
+    }
+}

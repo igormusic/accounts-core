@@ -1,4 +1,5 @@
 ﻿using System;
+using Accounts.Metadata.Model;
 using Accounts.Runtime.Model;
 
 namespace Accounts.Test
@@ -162,6 +163,33 @@ namespace Accounts.Test
                 .Add("LABOUR DAY", DateTime.Parse("2030-05-01"))
                 .Add("CHRISTMAS DAY (25 DEC)", DateTime.Parse("2030-12-25"))
                 .Add("BOXING DAY (26 DEC)", DateTime.Parse("2030-12-26"));
+        }
+
+        public static AccountType CreateSavingsAccountType()
+        {
+            AccountType accountType = new AccountType("SavingsAccount","Savings Account");
+
+            PositionType currentPosition = accountType.AddPositionType("Current");
+            PositionType interestAccruedPosition = accountType.AddPositionType("InterestAccrued");
+
+            TransactionType depositTransaction = accountType.AddTransactionType("Deposit", false);
+
+            depositTransaction.AddRule(currentPosition, TransactionOperation.Add);
+
+            TransactionType withdrawalTransaction = accountType.AddTransactionType("Withdrawal", false);
+
+            withdrawalTransaction.AddRule(currentPosition, TransactionOperation.Subtract);
+
+            TransactionType interestAccruedTransaction = accountType.AddTransactionType("InterestAccrued", true);
+
+            interestAccruedTransaction.AddRule(interestAccruedPosition, TransactionOperation.Add);
+
+            TransactionType interestCapitalizedTransaction = accountType.AddTransactionType("InterestCapitalized", false);
+
+            interestCapitalizedTransaction.AddRule(interestAccruedPosition, TransactionOperation.Subtract);
+            interestCapitalizedTransaction.AddRule(currentPosition, TransactionOperation.Add);
+
+            return accountType;
         }
     }
 }
