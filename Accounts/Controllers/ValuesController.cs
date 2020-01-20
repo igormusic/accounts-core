@@ -10,36 +10,41 @@ namespace Accounts.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
+        private static Dictionary<String,String> keyValues = new Dictionary<String,String>();
+
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
-            return new string[] { "value1", "value2" };
+            return keyValues.Keys;
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
+        public ActionResult<string> Get(String id)
         {
-            return "value";
+            return keyValues[id];
         }
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void Post([FromBody] KeyValuePair<String,String> pair)    
         {
+            keyValues.Add(pair.Key, pair.Value);
         }
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public void Put(String id, [FromBody] string value)
         {
+            keyValues.Add(id, value);
         }
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public void Delete(String id)
         {
+            keyValues.Remove(id);
         }
     }
 }
